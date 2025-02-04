@@ -4,7 +4,6 @@ export interface IFunnel {
     _id?: string
     funnel: string
     description?: string
-    slug: string
     steps: IStep[]
     service?: string
 }
