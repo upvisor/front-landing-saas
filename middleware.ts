@@ -25,10 +25,9 @@ export function middleware(req: NextRequest) {
   // Reescribir la URL para que se incluya el subdominio dinámicamente
   const url = req.nextUrl.clone();
 
-  // Reescribir la ruta: eliminamos la parte `/subdomain/` y lo mantenemos dinámico
-  // Comprobamos si la ruta tiene la parte `/subdomain/` al inicio
+  // Comprobamos si la ruta tiene la parte '/subdomain' al inicio
   if (pathname.startsWith('/subdomain')) {
-    // Extraemos el pathname después de /subdomain
+    // Extraemos el pathname después de '/subdomain' y lo reescribimos
     url.pathname = pathname.replace('/subdomain', '');
   }
 
