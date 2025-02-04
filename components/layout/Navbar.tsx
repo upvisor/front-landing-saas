@@ -114,11 +114,6 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
                           ? <Link href='/'><Image className='w-auto h-[52px] py-0.5' src={`${storeData.logoWhite}`} alt='Logo blanco' width={320} height={150} /></Link>
                           : <Link href='/'><div className='h-[52px] flex'><p className='m-auto text-2xl font-medium'>SITIO WEB</p></div></Link>
                     }
-                    {
-                      storeData?.logo && storeData?.logo !== ''
-                        ? <Link href='/'><Image className='h-[52px] w-auto py-0.5' src={`${storeData.logo}`} alt='Logo' width={155} height={53.72} /></Link>
-                        : <Link href='/'><div className='h-[52px] flex'><p className='m-auto text-xl font-semibold'>SITIO WEB</p></div></Link>
-                    }
                   </div>
                   <div />
                 </div>
@@ -131,11 +126,6 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
                       : storeData?.logoWhite && storeData?.logoWhite !== '' && design.header?.logo === 'Logo blanco'
                         ? <Link href='/'><Image className='max-w-[110px] min-w-[110px] py-0.5' src={`${storeData.logoWhite}`} alt='Logo blanco' width={320} height={150} /></Link>
                         : <Link href='/'><div className='h-[42px] flex'><p className='m-auto text-2xl font-medium'>SITIO WEB</p></div></Link>
-                  }
-                  {
-                    storeData?.logo && storeData?.logo !== ''
-                      ? <Link href='/'><Image className='max-w-[110px] min-w-[110px] py-0.5' src={`${storeData.logo}`} alt='Logo' width={155} height={53.72} /></Link>
-                      : <Link href='/'><div className='h-[42px] flex'><p className='m-auto text-xl font-semibold'>SITIO WEB</p></div></Link>
                   }
                 </div>
                 <Link href='/tienda' className='mt-auto mb-auto text-sm text-neutral-500'>Continuar comprando</Link>
