@@ -8,7 +8,7 @@ import Cookies from 'js-cookie'
 
 declare const fbq: Function
 
-export const SubscribePage = ({ info }: { info: IInfo }) => {
+export const SubscribePage = ({ info, style }: { info: IInfo, style?: any }) => {
 
   const [subscribeData, setSubscribeData] = useState({ email: '', tags: ['suscriptores'] })
   const [loading, setLoading] = useState(false)
@@ -60,8 +60,8 @@ export const SubscribePage = ({ info }: { info: IInfo }) => {
               <>
                 <h2 className='text-center font-medium text-xl lg:text-3xl' style={{ color: info.textColor }}>{info?.title ? info.title : 'Suscribete a nuestra lista'}</h2>
                 <div className='flex gap-2'>
-                  <Input inputChange={inputChange} type='text' placeholder={'Email'} value={subscribeData.email} />
-                  <ButtonSubmit action={handleSubmit} submitLoading={loading} textButton='Enviar' config='w-28' />
+                  <Input inputChange={inputChange} type='text' placeholder={'Email'} value={subscribeData.email} style={style} />
+                  <ButtonSubmit action={handleSubmit} submitLoading={loading} textButton='Enviar' config='w-28' style={style} />
                 </div>
               </>
             )

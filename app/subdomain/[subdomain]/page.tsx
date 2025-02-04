@@ -50,9 +50,9 @@ async function fetchStyle () {
 export async function generateMetadata({
   params
 }: {
-  params: { page: string }
+  params: { subdomain: string }
 }) {
-  const page: any = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/page-funnel/${params.page}`, { next: { revalidate: 3600 } }).then((res) => res.json())
+  const page: any = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/page-funnel/${params.subdomain}`, { next: { revalidate: 3600 } }).then((res) => res.json())
   return {
     title: page?.metaTitle && page?.metaTitle !== '' ? page?.metaTitle : '',
     description: page?.metaDescription && page?.metaDescription !== '' ? page?.metaDescription : '',
@@ -65,9 +65,9 @@ export async function generateMetadata({
   }
 }
 
-export default async function Page({ params }: { params: { page: string } }) {
+export default async function Page({ params }: { params: { subdomain: string } }) {
   
-  const pageData = fetchDesign(params.page)
+  const pageData = fetchDesign(params.subdomain)
 
   const callsData = fetchCalls()
 
@@ -100,7 +100,7 @@ export default async function Page({ params }: { params: { page: string } }) {
           } else if (content.content === 'Bloque 4') {
             return <Block4 key={content.content} content={content} index={index} forms={forms} calls={calls} design={design} payment={payment} style={style} />
           } else if (content.content === 'Bloque 5') {
-            return <Block5 key={content.content} content={content} index={index} forms={forms} calls={calls} design={design} payment={payment} style={style}/>
+            return <Block5 key={content.content} content={content} index={index} forms={forms} calls={calls} design={design} payment={payment} style={style} />
           } else if (content.content === 'Contacto') {
             return <ContactPage key={content.content} info={ content.info } index={index} style={style} />
           } else if (content.content === 'Suscripción') {
@@ -120,7 +120,7 @@ export default async function Page({ params }: { params: { page: string } }) {
           } else if (content.content === 'Lead 2') {
             return <Lead2 key={content.content} content={content} forms={forms} index={index} step={page.step} services={services} storeData={storeData} style={style} />
           } else if (content.content === 'Planes') {
-            return <Plans key={content.content} content={content} services={services} index={index} payment={payment} style={style} step={page.step} forms={forms} />
+            return <Plans key={content.content} content={content} services={services} index={index} payment={payment} style={style} forms={forms} />
           } else if (content.content === 'Preguntas frecuentes') {
             return <Faq key={content.content} content={content} services={services} index={index} style={style} />
           } else if (content.content === 'Lead 3') {

@@ -6,10 +6,11 @@ interface Props {
     change: any
     value: string
     config?: string
+    style?: any
 }
 
-export const Textarea: React.FC<Props> = ({ placeholder, name, change, value, config }) => {
+export const Textarea: React.FC<Props> = ({ placeholder, name, change, value, config, style }) => {
   return (
-    <textarea placeholder={placeholder} name={name} onChange={change} value={value} className={`${config} py-2 px-3 w-full text-sm rounded-xl border border-black/5 shadow shadow-black/5 transition-colors duration-200 focus:outline-none focus:border-main focus:ring-1 focus:ring-main hover:border-main/80`} />
+    <textarea placeholder={placeholder} name={name} onChange={change} value={value} className={`${config} border py-2 px-3 w-full text-sm transition-colors duration-200`} style={{ borderRadius: style?.form === 'Redondeadas' ? `${style?.borderButton}px` : '' }} />
   )
 }

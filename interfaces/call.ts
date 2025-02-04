@@ -1,5 +1,6 @@
 export interface ICall {
     _id?: string
+    type?: string
     nameMeeting: string
     title?: string
     duration: string
@@ -11,4 +12,5 @@ export interface ICall {
     action: string
     message?: string
     redirect?: string
+    calendar?: string
 }

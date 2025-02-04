@@ -6,18 +6,18 @@ import React from 'react'
 
 export const FooterPage = ({ storeData, politics, design }: { storeData: IStoreData, politics?: IPolitics, design: Design }) => {
   return (
-    <div className='flex pl-4 pr-4 pt-14 pb-14 z-40 bg-neutral-900'>
+    <div className='flex pl-4 pr-4 pt-14 pb-14 z-40' style={{ backgroundColor: design.footer.bgColor, color: design.footer.textColor }}>
       <div className='w-[1280px] m-auto'>
         <div className='flex gap-4 justify-between flex-wrap pb-6 border-b'>
           <div>
             {
               storeData?.logoWhite
                 ? <Link href='/'><Image className='w-48 h-auto mb-3' src={storeData.logoWhite} alt='Logo' width={320} height={150} /></Link>
-                : <Link href='/' className='text-white text-3xl font-medium'>SITIO WEB</Link>
+                : <Link href='/' className='text-3xl font-medium'>SITIO WEB</Link>
             }
             {
               storeData?.email && storeData?.email !== ''
-                ? <p className='text-white mb-4 text-sm'>{storeData.email}</p>
+                ? <p className='mb-4 text-sm'>{storeData.email}</p>
                 : ''
             }
             <div className='flex gap-4'>
@@ -39,11 +39,11 @@ export const FooterPage = ({ storeData, politics, design }: { storeData: IStoreD
             </div>
           </div>
           <div className='flex flex-col gap-3'>
-            <h3 className='text-white'>PAGINAS</h3>
+            <h3>PAGINAS</h3>
             <div className='flex flex-col gap-1'>
               {
                 design.pages.filter(page => page.header).map(page => (
-                  <Link key={page._id} href={page.slug === '' ? '/' : page.slug} className='text-white'>{ page.page }</Link>
+                  <Link key={page._id} href={page.slug === '' ? '/' : page.slug}>{ page.page }</Link>
                 ))
               }
             </div>
@@ -52,16 +52,16 @@ export const FooterPage = ({ storeData, politics, design }: { storeData: IStoreD
             politics?.terms && politics?.terms !== '' || politics?.privacy && politics?.privacy !== ''
               ? (
                 <div className='flex flex-col gap-3'>
-                  <h3 className='text-white'>POLITICAS</h3>
+                  <h3>POLITICAS</h3>
                   <div className='flex flex-col gap-1'>
                     {
                       politics.terms && politics.terms !== ''
-                        ? <Link className='block text-white text-sm mb-1' href='/terminos-y-condiciones'>Terminos y condiciones</Link>
+                        ? <Link className='block text-sm mb-1' href='/terminos-y-condiciones'>Terminos y condiciones</Link>
                         : ''
                     }
                     {
                       politics.privacy && politics.privacy !== ''
-                        ? <Link className='block text-white text-sm mb-1' href='/politicas-de-privacidad'>Politicas de privacidad</Link>
+                        ? <Link className='block text-sm mb-1' href='/politicas-de-privacidad'>Politicas de privacidad</Link>
                         : ''
                     }
                   </div>
@@ -71,7 +71,7 @@ export const FooterPage = ({ storeData, politics, design }: { storeData: IStoreD
           }
         </div>
         <div className='mt-4'>
-          <span className='text-white text-sm'>© 2023 {storeData?.name}. Todos los derechos reservados</span>
+          <span className='text-sm'>© 2025 {storeData?.name}. Todos los derechos reservados</span>
         </div>
       </div>
     </div>

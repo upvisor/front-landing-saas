@@ -8,6 +8,7 @@ export interface IService {
     typeService: string
     typePrice: string
     price?: string
+    anualPrice?: string
     plans?: IPlans
     tags?: string[]
 
@@ -25,7 +26,19 @@ export interface IPlan {
     name: string
     description?: string
     price: string
+    anualPrice?: string
+    level2?: string
+    anualLevel2?: string
+    level3?: string
+    anualLevel3?: string
+    level4?: string
+    anualLevel4?: string
+    level5?: string
+    anualLevel5?: string
+    level6?: string
+    anualLevel6?: string
     functionalities?: { name: string, value: string }[]
+    characteristics?: string[]
 }
 
 export interface IStepService {
@@ -54,6 +67,7 @@ export interface IInfoService {
     description3?: string
     button3?: string
     buttonLink3?: string
+    subTitle4?: string
     descriptionView?: boolean
     products?: string
     video?: string
@@ -62,4 +76,7 @@ export interface IInfoService {
     background?: string
     textColor?: string
     faq?: [{ question?: string, response?: string }]
+    blocks?: [{ title?: string, description?: string, buttonText?: string, buttonLink?: string }]
+    reviews?: [{ review?: string, stars?: string, name?: string }]
+    form?: { type: string, text:  string, name: string, data: string, datas?: string[] }[]
 }

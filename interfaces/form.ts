@@ -3,7 +3,7 @@ export interface IForm {
     nameForm: string
     title?: string
     informations: { icon: string, text: string, subText?: string }[]
-    labels: { _id?: string, text: string, name: string, data: string }[]
+    labels: { _id?: string, text: string, name: string, data: string, type: string, datas?: string[] }[]
     button: string
     tags?: string[]
     action: string

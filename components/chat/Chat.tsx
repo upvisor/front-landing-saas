@@ -1,5 +1,5 @@
 "use client"
-import { IMessage } from '@/interfaces'
+import { IMessage, IStoreData } from '@/interfaces'
 import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
@@ -12,17 +12,21 @@ const socket = io(`${process.env.NEXT_PUBLIC_API_URL}/`, {
   transports: ['websocket']
 })
 
-export const Chat = () => {
+interface Props {
+  style?: any
+  storeData?: IStoreData
+  design: any
+}
+
+export const Chat: React.FC<Props> = ({ style, storeData,design }) => {
 
   const [chatOpacity, setChatOpacity] = useState('-mb-[700px]')
   const [chat, setChat] = useState<IMessage[]>([{
-    response: '¡Hola! Mi nombre es Carmen Orellana, ¿En que te puedo ayudar?',
+    response: `¡Hola! Te damos la bienvenida a ${storeData?.name}, mi nombre es ${storeData?.nameContact}, ¿En que te puedo ayudar?`,
     adminView: false,
     userView: false
   }])
   const [newMessage, setNewMessage] = useState('')
-  const [submitLoading, setSubmitLoading] = useState(false)
-  const [link, setLink] = useState('')
 
   const chatRef = useRef(chat)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -106,8 +110,8 @@ export const Chat = () => {
 
   return (
     <>
-        <div className={`${chatOpacity} fixed bottom-24 right-4 flex z-40 h-[480px] ml-3 justify-between flex-col gap-3 transition-all duration-500 bg-white shadow-md rounded-xl dark:bg-main w-96 sm:h-[600px] sm:gap-4`}>
-          <div className='h-28 w-full shadow-md bg-main rounded-t-xl flex p-4'>
+        <div className={`${chatOpacity} fixed bottom-24 right-4 flex z-50 h-[480px] ml-3 justify-between flex-col gap-3 transition-all duration-500 w-96 sm:h-[600px] sm:gap-4`} style={{ borderRadius: `${style.borderBlock}px`, border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '', boxShadow: style.design === 'Sobreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', backgroundColor: design.chat.bgColor }}>
+          <div className='h-28 w-full flex p-4' style={{ backgroundColor: style.primary, borderTopLeftRadius: `${style.borderBlock}px`, borderTopRightRadius: `${style.borderBlock}px` }}>
             <span className='text-white mt-auto mb-auto text-xl'>Chat</span>
           </div>
           <div ref={containerRef} className='flex flex-col h-full gap-2 pl-3 sm:pl-4' style={{ overflow: 'overlay' }}>
@@ -128,7 +132,7 @@ export const Chat = () => {
                       info.response
                         ? (
                           <div className='flex flex-col gap-2 mr-6'>
-                            <div className='bg-main text-white p-1.5 rounded-md w-fit'><p>{info.response}</p></div>
+                            <div className='text-white p-1.5 rounded-md w-fit' style={{ backgroundColor: style.primary }}><p>{info.response}</p></div>
                           </div>
                         )
                         : ''
@@ -139,8 +143,8 @@ export const Chat = () => {
             }
           </div>
           <form className='flex gap-2 pr-3 pl-3 pb-3 sm:pr-4 sm:pl-4 sm:pb-4'>
-            <Input inputChange={inputChange} value={newMessage} type={'text'} placeholder={'Mensaje'} />
-            <button type='submit' onClick={submitMessage} className='bg-main text-white w-28 rounded-md dark:bg-neutral-700 border border-main transition-colors duration-200 hover:bg-transparent hover:text-main'>Enviar</button>
+            <Input inputChange={inputChange} value={newMessage} type={'text'} placeholder={'Mensaje'} style={style} />
+            <button type='submit' onClick={submitMessage} className='text-white w-28 rounded-xl dark:bg-neutral-700 transition-colors duration-200 hover:bg-transparent' style={{ backgroundColor: style.primary }}>Enviar</button>
           </form>
         </div>
         <button onClick={async (e: any) => {
@@ -160,7 +164,7 @@ export const Chat = () => {
             chat[0].userView = true
             setChat(chat)
           }
-        }} aria-label='Boton para abrir y cerrar el chat' className='w-14 h-14 z-50 bg-main flex rounded-full fixed bottom-4 right-4 ml-auto shadow-md'>
+        }} aria-label='Botón para abrir y cerrar el chat' id='chat' className='w-14 h-14 z-50 flex rounded-full fixed bottom-4 right-4 ml-auto' style={{ backgroundColor: style.primary }}>
           {
             chatOpacity === '-mb-[700px]'
               ? (

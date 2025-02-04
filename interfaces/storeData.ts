@@ -1,6 +1,7 @@
 export interface IStoreData {
     _id?: string
     name?: string
+    nameContact?: string
     email: string
     phone?: string
     address?: string

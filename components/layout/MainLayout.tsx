@@ -41,6 +41,11 @@ async function fetchServices () {
   return res.json()
 }
 
+async function fetchStyle () {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/style`, { next: { revalidate: 3600 } })
+  return res.json()
+}
+
 export default async function MainLayout({ children }: { children: React.ReactNode }) {
   
   const designData = fetchDesign()
@@ -59,10 +64,12 @@ export default async function MainLayout({ children }: { children: React.ReactNo
 
   const servicesData = fetchServices()
 
-  const [design, storeData, funnels, politics, calls, forms, payment, services] = await Promise.all([designData, storeDataData, funnelsData, politicsData, callsData, formsData, paymentData, servicesData])
+  const styleData = fetchStyle()
+
+  const [design, storeData, funnels, politics, calls, forms, payment, services, style] = await Promise.all([designData, storeDataData, funnelsData, politicsData, callsData, formsData, paymentData, servicesData, styleData])
   
   return (
-    <AllNavbar design={design} storeData={storeData} funnels={funnels} politics={politics} calls={calls} forms={forms} payment={payment} services={services}>
+    <AllNavbar design={design} storeData={storeData} funnels={funnels} politics={politics} calls={calls} forms={forms} payment={payment} services={services} style={style}>
       { children }
     </AllNavbar>
   )

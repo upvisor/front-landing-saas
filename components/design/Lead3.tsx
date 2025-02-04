@@ -1,18 +1,30 @@
 "use client"
-import React, { useEffect, useState } from 'react'
-import { Button, Check, H1, H2, H3, Input, Select } from '../ui'
 import { IClient, IDesign, IForm, IService, IStoreData } from '@/interfaces'
+import React, { useEffect, useRef, useState } from 'react'
+import { Button, Check, H1, H2, Input, P, Select } from '../ui'
 import axios from 'axios'
-import { usePathname, useRouter } from 'next/navigation'
 import Cookies from 'js-cookie'
-import Image from 'next/image'
+import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
+
+interface Props {
+    content: IDesign
+    index: number
+    style?: any
+    services?: IService[]
+    forms?: IForm[]
+    storeData?: IStoreData
+    step?: string
+}
 
 declare const fbq: Function
 
-export const Lead2 = ({ content, forms, step, index, services, storeData, style }: { content: IDesign, forms: IForm[], step?: string, index: any, services: IService[], storeData: IStoreData, style?: any }) => {
-
-  const [client, setClient] = useState<IClient>({ email: '', tags: forms.find(form => form._id === content.form)?.tags, forms: [{ form: forms.find(form => form._id === content.form)?._id! }] })
+export const Lead3: React.FC<Props> = ({ content, index, style, services, forms, storeData, step }) => {
+  
+  const [question, setQuestion] = useState(-1);
+  const contentRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const [client, setClient] = useState<IClient>({ email: '', tags: forms?.find(form => form._id === content.form)?.tags, forms: [{ form: forms?.find(form => form._id === content.form)?._id! }] })
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -39,20 +51,65 @@ export const Lead2 = ({ content, forms, step, index, services, storeData, style 
     getFunnel()
   }, [step])
 
+  const toggleQuestion = (i: number) => {
+    setQuestion(question === i ? -1 : i);
+  };
+
+  const getMaxHeight = (i: number): string => {
+    if (contentRefs.current[i]) {
+      return question === i ? `${contentRefs.current[i]?.scrollHeight}px` : "0px";
+    }
+    return "0px";
+  };
+
   const getClientValue = (name: string) => client[name] || client.data?.find(dat => dat.name === name)?.value;
 
   return (
-    <div className={`py-10 md:py-20 w-full m-auto flex px-4`} style={{ background: `${content.info.typeBackground === 'Degradado' ? content.info.background : content.info.typeBackground === 'Color' ? content.info.background : ''}` }}>
-      <div className='flex flex-col gap-4 w-full max-w-[1280px] mx-auto'>
+    <div
+      className={`py-10 md:py-20 px-4 m-auto w-full flex`}
+      style={{
+        background: `${
+          content.info.typeBackground === "Degradado"
+            ? content.info.background
+            : content.info.typeBackground === "Color"
+            ? content.info.background
+            : ""
+        }`,
+      }}
+    >
+      <div className='flex flex-col gap-8 w-full max-w-[1280px] m-auto'>
         {
-          content.info.titleForm === 'Logo principal' && storeData.logo && storeData.logo !== ''
+          content.info.titleForm === 'Logo principal' && storeData?.logo && storeData.logo !== ''
             ? <Link href='/' target='_blank' className='w-fit m-auto'><Image src={storeData.logo} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></Link>
-            : content.info.titleForm === 'Logo blanco' && storeData.logoWhite && storeData.logoWhite !== ''
+            : content.info.titleForm === 'Logo blanco' && storeData?.logoWhite && storeData.logoWhite !== ''
               ? <Link href='/' target='_blank' className='w-fit m-auto'><Image src={storeData.logoWhite} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></Link>
               : ''
         }
-        <H1 text={content.info.title} config="text-center font-semibold" color={content.info.textColor} />
-        <H2 text={content.info.description} config="text-center font-medium text-xl lg:text-2xl" color={content.info.textColor} />
+        {content.info.title && content.info.title !== "" || content.info.description && content.info.description !== "" ? (
+          <div className="flex flex-col gap-4">
+            {content.info.description2 && content.info.description2 !== "" ? (
+              <p className='text-xl lg:text-3xl font-medium text-center' style={{ color: content.info.textColor }}>{content.info.description2}</p>
+            ) : (
+              ""
+            )}
+            {content.info.title && content.info.title !== "" ? (
+              index === 0 ? (
+                <H1 text={content.info.title} color={content.info.textColor} config="text-center font-semibold" />
+              ) : (
+                <H2 text={content.info.title} color={content.info.textColor} config="text-center font-semibold" />
+              )
+            ) : (
+              ""
+            )}
+            {content.info.description && content.info.description !== "" ? (
+              <p className='text-xl lg:text-3xl font-medium text-center underline' style={{ color: content.info.textColor }}>{content.info.description}</p>
+            ) : (
+              ""
+            )}
+          </div>
+        ) : (
+          ""
+        )}
         <div className='flex flex-col gap-4'>
           {
             content.info.subTitle && content.info.subTitle !== ''
@@ -96,6 +153,41 @@ export const Lead2 = ({ content, forms, step, index, services, storeData, style 
           }
         </div>
         {
+          content.info.video !== ''
+            ? (
+              <div className='flex w-full max-w-[800px] m-auto'>
+                <div
+                  className="m-auto w-full"
+                  style={{
+                    position: 'relative',
+                    height: 0,
+                    paddingBottom: '56.25%', // Ratio 16:9
+                    backgroundColor: '#000',
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    width: '100%', // Se ajusta a la pantalla, pero no excede el max-width
+                  }}
+                >
+                  <iframe
+                    src={content.info.video}
+                    loading="lazy"
+                    style={{
+                      border: 0,
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                    }}
+                    allow="accelerometer; gyroscope; encrypted-media; picture-in-picture;"
+                    allowFullScreen={true}
+                  ></iframe>
+                </div>
+              </div>
+            )
+            : ''
+        }
+        {
           content.form && content.form !== ''
             ? (
               <div className={`w-full flex`}>
@@ -105,7 +197,7 @@ export const Lead2 = ({ content, forms, step, index, services, storeData, style 
                     setLoading(true)
                     setError('')
                     
-                    const form = forms.find(form => form._id === content.form)
+                    const form = forms?.find(form => form._id === content.form)
                     let valid = true
                     let errorMessage = ''
                 
@@ -187,7 +279,7 @@ export const Lead2 = ({ content, forms, step, index, services, storeData, style 
                                 ? <p className='w-fit px-2 py-1 bg-red-500 text-white m-auto'>{error}</p>
                                 : ''
                             }
-                            <p className="text-main text-xl font-medium text-center">{forms?.find(form => form._id === content.form)?.title}</p>
+                            <p className="text-xl font-medium text-center" style={{ color: style.primary }}>{forms?.find(form => form._id === content.form)?.title}</p>
                             {
                               forms?.find(form => form._id === content.form)?.informations.map(information => (
                                 <div key={information.text} className="flex gap-2">
@@ -277,5 +369,5 @@ export const Lead2 = ({ content, forms, step, index, services, storeData, style 
         }
       </div>
     </div>
-  )
-}
+  );
+};

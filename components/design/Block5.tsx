@@ -6,15 +6,15 @@ import Image from 'next/image'
 import { Design, ICall, IDesign, IForm, IPayment } from '@/interfaces'
 import { PopupPage } from './PopupPage'
 
-export const Block5 = ({ content, index, calls, forms, design, payment }: { content: IDesign, index: any, forms: IForm[], calls: ICall[], design: Design, payment: IPayment }) => {
+export const Block5 = ({ content, index, calls, forms, design, payment, style }: { content: IDesign, index: any, forms: IForm[], calls: ICall[], design: Design, payment: IPayment, style?: any }) => {
 
   const [popup, setPopup] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
   const [cont, setCont] = useState('')
 
   return (
     <>
-      <PopupPage popup={popup} setPopup={setPopup} content={cont} design={design} calls={calls} forms={forms} payment={payment} />
-      <div key={content.content} className="w-full flex py-8 px-4 md:py-12" style={{ background: `${content.info.typeBackground === 'Degradado' ? content.info.background : content.info.typeBackground === 'Color' ? content.info.background : ''}` }}>
+      <PopupPage popup={popup} setPopup={setPopup} content={cont} design={design} calls={calls} forms={forms} payment={payment} style={style} />
+      <div key={content.content} className={`py-10 md:py-20 w-full flex px-4`} style={{ background: `${content.info.typeBackground === 'Degradado' ? content.info.background : content.info.typeBackground === 'Color' ? content.info.background : ''}` }}>
         <div className="w-full text-center max-w-[1280px] m-auto flex flex-col gap-6">
           {
             index === 0
@@ -38,10 +38,10 @@ export const Block5 = ({ content, index, calls, forms, design, payment }: { cont
                       setTimeout(() => {
                         setPopup({ ...popup, view: 'flex', opacity: 'opacity-1' })
                       }, 10);
-                    }}>{content.info.button}</Button>
+                    }} style={style}>{content.info.button}</Button>
                     : content.info.buttonLink === '' || content.info.button === ''
                       ? ''
-                      : <Link href={`${content.info.buttonLink}`}><Button>{content.info.button}</Button></Link>
+                      : <Link href={`${content.info.buttonLink}`}><Button style={style}>{content.info.button}</Button></Link>
                 }
               </div>
               <div className="w-full flex flex-col gap-3 md:w-1/2">
@@ -60,16 +60,16 @@ export const Block5 = ({ content, index, calls, forms, design, payment }: { cont
                       setTimeout(() => {
                         setPopup({ ...popup, view: 'flex', opacity: 'opacity-1' })
                       }, 10);
-                    }}>{content.info.button2}</Button>
+                    }} style={style}>{content.info.button2}</Button>
                     : content.info.buttonLink2 === '' || content.info.button2 === ''
                       ? ''
-                      : <Link href={`${content.info.buttonLink2}`}><Button>{content.info.button2}</Button></Link>
+                      : <Link href={`${content.info.buttonLink2}`}><Button style={style}>{content.info.button2}</Button></Link>
                 }
               </div>
             </div>
             {
               content.info?.image && content.info.image !== ''
-                ? <Image className='h-fit mx-auto mt-4 rounded-2xl' width={480} height={300} alt='Imagen slider prueba' src={content.info.image} />
+                ? <Image className={`h-fit mx-auto mt-4`} style={{ boxShadow: style.design === 'Sombreado' ? '0px 3px 20px 3px #11111110' : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '' }} width={480} height={300} alt='Imagen slider prueba' src={content.info.image} />
                 : ''
             }
         </div>

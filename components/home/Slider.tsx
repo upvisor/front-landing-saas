@@ -11,7 +11,7 @@ import { Design, ICall, IClient, IForm, IInfo, IPayment } from "@/interfaces"
 import { useState } from "react"
 import { PopupPage } from "../design"
 
-export const Slider = ({ info, index, forms, calls, design, payment }: { info: IInfo, index: any, forms: IForm[], calls: ICall[], design: Design, payment: IPayment }) => {
+export const Slider = ({ info, index, forms, calls, design, payment, style }: { info: IInfo, index: any, forms: IForm[], calls: ICall[], design: Design, payment: IPayment, style?: any }) => {
 
   const [popup, setPopup] = useState({ view: 'hidden', opacity: 'opacity-0', mouse: false })
   const [content, setContent] = useState('')
@@ -51,10 +51,10 @@ export const Slider = ({ info, index, forms, calls, design, payment }: { info: I
                               setTimeout(() => {
                                 setPopup({ ...popup, view: 'flex', opacity: 'opacity-1' })
                               }, 10);
-                            }}>{banner.button}</Button>
+                            }} style={style}>{banner.button}</Button>
                             : banner.buttonLink === '' || banner.button === ''
                               ? ''
-                              : <Link href={`${banner.buttonLink}`}><Button>{banner.button}</Button></Link>
+                              : <Link href={`${banner.buttonLink}`}><Button style={style}>{banner.button}</Button></Link>
                         }
                       </div>
                     </div>

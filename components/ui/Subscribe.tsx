@@ -2,9 +2,9 @@
 import { IInfo } from "@/interfaces"
 import { SubscribePage } from "."
 
-export const Subscribe = ({ info }: { info: IInfo }) => {
+export const Subscribe = ({ info, style }: { info: IInfo, style?: any }) => {
 
   return (
-    <SubscribePage info={info} />
+    <SubscribePage info={info} style={style} />
   )
 }

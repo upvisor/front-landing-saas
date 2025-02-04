@@ -16,9 +16,10 @@ interface Props {
     calls: ICall[]
     forms: IForm[]
     payment: IPayment
+    style?: any
 }
 
-export const PopupPage: React.FC<Props> = ({ popup, setPopup, content, design, calls, forms, payment }) => {
+export const PopupPage: React.FC<Props> = ({ popup, setPopup, content, design, calls, forms, payment, style }) => {
 
   const [message, setMessage] = useState('')
   const [clientData, setClientData] = useState<IClient>({ email: '' })
@@ -160,7 +161,7 @@ export const PopupPage: React.FC<Props> = ({ popup, setPopup, content, design, c
                                                   ? <p className='px-2 py-1 bg-red-500 text-white w-fit'>{error}</p>
                                                   : ''
                                               }
-                                              <p className="text-main text-xl font-medium text-center">{forms?.find(form => form._id === content)?.title}</p>
+                                              <p className="text-xl font-medium text-center" style={style}>{forms?.find(form => form._id === content)?.title}</p>
                                               {
                                                 forms?.find(form => form._id === content)?.informations.map(information => (
                                                   <div key={information.text} className="flex gap-2">
@@ -184,6 +185,7 @@ export const PopupPage: React.FC<Props> = ({ popup, setPopup, content, design, c
                                                   <div key={label._id} className="flex flex-col gap-2">
                                                     <p>{label.text !== '' ? label.text : label.name}</p>
                                                     <Input
+                                                      style={style}
                                                       placeholder={label.name}
                                                       value={clientData.data?.find((dat: any) => dat.name === label.name)?.value || clientData[label.data]}
                                                       inputChange={(e: any) => {
@@ -208,7 +210,7 @@ export const PopupPage: React.FC<Props> = ({ popup, setPopup, content, design, c
                                                   </div>
                                                 ))
                                               }
-                                              <Button type='submit' config='w-full' loading={loading}>{forms?.find(form => form._id === content)?.button}</Button>
+                                              <Button type='submit' config='w-full' style={style} loading={loading}>{forms?.find(form => form._id === content)?.button}</Button>
                                             </>
                                           )
                                       }
@@ -309,7 +311,7 @@ export const PopupPage: React.FC<Props> = ({ popup, setPopup, content, design, c
                                 ? <p className='px-2 py-1 bg-red-500 text-white w-fit'>{error}</p>
                                 : ''
                             }
-                            <p className="text-main text-xl font-medium text-center">{forms?.find(form => form._id === content)?.title}</p>
+                            <p className="text-xl font-medium text-center" style={{ color: style?.primary }}>{forms?.find(form => form._id === content)?.title}</p>
                             {
                               forms?.find(form => form._id === content)?.informations.map(information => (
                                 <div key={information.text} className="flex gap-2">
@@ -333,6 +335,7 @@ export const PopupPage: React.FC<Props> = ({ popup, setPopup, content, design, c
                                 <div key={label._id} className="flex flex-col gap-2">
                                   <p>{label.text !== '' ? label.text : label.name}</p>
                                   <Input
+                                    style={style}
                                     placeholder={label.name}
                                     value={clientData.data?.find((dat: any) => dat.name === label.name)?.value || clientData[label.data]}
                                     inputChange={(e: any) => {
@@ -357,7 +360,7 @@ export const PopupPage: React.FC<Props> = ({ popup, setPopup, content, design, c
                                 </div>
                               ))
                             }
-                            <Button type='submit' config='w-full' loading={loading}>{forms?.find(form => form._id === content)?.button}</Button>
+                            <Button type='submit' config='w-full' style={style} loading={loading}>{forms?.find(form => form._id === content)?.button}</Button>
                           </>
                         )
                     }

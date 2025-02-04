@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation'
 
 declare const fbq: Function
 
-export const ContactPage = ({ info, index }: { info: IInfo, index: any }) => {
+export const ContactPage = ({ info, index, style }: { info: IInfo, index: any, style?: any }) => {
 
   const [formContact, setFormContact] = useState<IContactData>({
     name: '',
@@ -53,7 +53,7 @@ export const ContactPage = ({ info, index }: { info: IInfo, index: any }) => {
         if (emailRegex.test(formContact.email)) {
           const newEventId = new Date().getTime().toString()
           await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/contact`, { ...formContact, fbc: Cookies.get('_fbc'), fbp: Cookies.get('_fbp'), page: pathname, eventId: newEventId })
-          await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/client`, { firstName: formContact.name, email: formContact.email, tags: ['formulario-contacto'] })
+          await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/clients`, { firstName: formContact.name, email: formContact.email, tags: ['formulario-contacto'] })
           fbq('track', 'Contact', { first_name: formContact.name, email: formContact.email, fbp: Cookies.get('_fbp'), fbc: Cookies.get('_fbc'), event_source_url: `${process.env.NEXT_PUBLIC_WEB_URL}${pathname}` }, { eventID: newEventId })
           setSending('Mensaje enviado')
           setFormContact({name: '', email: '', message: '', images: []})
@@ -72,7 +72,7 @@ export const ContactPage = ({ info, index }: { info: IInfo, index: any }) => {
   }
 
   return (
-      <div className='flex px-4 py-8 md:py-12 w-full' style={{ background: `${info.typeBackground === 'Degradado' ? info.background : info.typeBackground === 'Color' ? info.background : ''}` }}>
+      <div className='flex px-4 py-10 md:py-20 w-full' style={{ background: `${info.typeBackground === 'Degradado' ? info.background : info.typeBackground === 'Color' ? info.background : ''}` }}>
         <div className='m-auto w-full max-w-[1280px] flex gap-8 flex-col xl:flex-row'>
           <div className='w-full m-auto flex flex-col gap-2 text-center xl:w-1/2 xl:text-left'>
             {
@@ -83,7 +83,7 @@ export const ContactPage = ({ info, index }: { info: IInfo, index: any }) => {
             <P text={info.description} color={info.textColor} />
           </div>
           <div className='w-full m-auto sm:w-[560px] xl:w-1/2'>
-            <div className='rounded-xl border border-black/5 flex flex-col gap-4 p-6 sm:p-8 dark:shadow-none' style={{ boxShadow: '0px 3px 20px 3px #11111110' }}>
+            <div className={`flex flex-col gap-4 p-6 sm:p-8`} style={{ boxShadow: style?.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', borderRadius: style?.form === 'Redondeadas' ? `${style?.borderBlock}px` : '', border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '', color: info.textColor }}>
               {
                 error !== ''
                   ? <p className='bg-red-500 px-2 py-1 text-white w-fit'>{error}</p>
@@ -93,18 +93,21 @@ export const ContactPage = ({ info, index }: { info: IInfo, index: any }) => {
               <form className='flex flex-col gap-4'>
                 <div className='flex flex-col gap-2'>
                   <p className='text-sm'>Nombre</p>
-                  <Input inputChange={inputChange} value={formContact.name} type={'text'} placeholder={'Nombre'} name='name' text='text-sm' />
+                  <Input inputChange={inputChange} value={formContact.name} type={'text'} placeholder={'Nombre'} name='name' text='text-sm' style={style} />
                 </div>
                 <div className='flex flex-col gap-2'>
                   <p className='text-sm'>Email</p>
-                  <Input inputChange={inputChange} value={formContact.email} type={'text'} placeholder={'Email'} name='email' text='text-sm' />
+                  <Input inputChange={inputChange} value={formContact.email} type={'text'} placeholder={'Email'} name='email' text='text-sm' style={style} />
                 </div>
                 <div className='flex flex-col gap-2'>
                   <p className='text-sm'>Mensaje</p>
-                  <Textarea placeholder='Mensaje' name='message' change={inputChange} value={formContact.message} />
+                  <Textarea placeholder='Mensaje' name='message' change={inputChange} value={formContact.message} style={style} />
                 </div>
-                <input type='file' onChange={imageChange} className='text-sm block w-full file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-main/10 file:text-main hover:file:bg-main/20 dark:file:bg-neutral-600 dark:file:text-white' />
-                <ButtonSubmit submitLoading={sending === ''} textButton={sending} action={handleSubmit} />
+                <div className='flex flex-col gap-2'>
+                  <p className='text-sm'>Subir imagen si se necesita</p>
+                  <input type='file' onChange={imageChange} className='text-sm block w-full file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm' />
+                </div>
+                <ButtonSubmit submitLoading={sending === ''} textButton={sending} action={handleSubmit} style={style} />
               </form>
             </div>
           </div>

@@ -8,7 +8,7 @@ import { NumberFormat } from '@/utils'
 import Link from 'next/link'
 import Image from 'next/image'
 
-export const Call = ({ calls, content, step, services, payment, storeData, index }: { calls: ICall[], content: IDesign, step?: string, services: IService[], payment: IPayment, storeData?: IStoreData, index: number }) => {
+export const Call = ({ calls, content, step, services, payment, storeData, index, style }: { calls: ICall[], content: IDesign, step?: string, services: IService[], payment: IPayment, storeData?: IStoreData, index: number, style?: any }) => {
 
   const [newClient, setNewClient] = useState<IClient>({ email: '', meetings: [{ meeting: calls.find(call => call._id === content.meeting)?._id! }] })
 
@@ -18,10 +18,10 @@ export const Call = ({ calls, content, step, services, payment, storeData, index
     if (step) {
       const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/funnel-by-step${pathname}`)
       const respo = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/funnel-name/${res.data}`)
-      const stepFind = respo.data.steps.find((ste: any) => ste.step === step)
-      const service = services?.find(service => service._id === respo.data.service)
+      const stepFind = respo.data?.steps.find((ste: any) => ste.step === step)
+      const service = services?.find(service => service._id === respo.data?.service)
       if (res.data) {
-        setNewClient({ ...newClient, funnels: [{ funnel: respo.data._id, step: stepFind._id }], services: service?._id ? [{ service: service?._id }] : undefined })
+        setNewClient({ ...newClient, funnels: [{ funnel: respo.data?._id, step: stepFind?._id }], services: service?._id ? [{ service: service?._id }] : undefined })
       }
     }
   }
@@ -31,7 +31,7 @@ export const Call = ({ calls, content, step, services, payment, storeData, index
   }, [step])
 
   return (
-    <div className="flex flex-col gap-16 py-8 px-4 md:py-12" style={{ background: `${content.info.typeBackground === 'Degradado' ? content.info.background : content.info.typeBackground === 'Color' ? content.info.background : ''}` }}>
+    <div className={`py-10 md:py-20 flex flex-col gap-16 px-4`} style={{ background: `${content.info.typeBackground === 'Degradado' ? content.info.background : content.info.typeBackground === 'Color' ? content.info.background : ''}` }}>
       <div className="w-full flex flex-col gap-8 max-w-[1280px] m-auto">
         {
           content.info.titleForm === 'Logo principal' && storeData?.logo && storeData.logo !== ''
@@ -60,15 +60,17 @@ export const Call = ({ calls, content, step, services, payment, storeData, index
             )
             : ''
         }
-        <div className="bg-white border border-black/5 rounded-2xl m-auto w-full" style={{ boxShadow: '0px 3px 20px 3px #11111110' }}>
+        <div className={`m-auto w-full`} style={{ boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '', border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '', color: content.info.textColor }}>
           <div className="lg:flex">
             <div className="p-6 md:p-8 border-b border-black/5 lg:border-b-0 lg:border-r flex flex-col gap-8 w-full lg:w-5/12">
               <div className='flex flex-col gap-6 sticky top-20'>
                 <div className="flex flex-col gap-3">
                   {
-                    storeData?.logo && storeData.logo !== ''
-                      ? <Image src={storeData.logo} alt={`Imagen logo ${storeData.name}`} width={200} height={150} className='w-32 sm:w-40' />
-                      : <p className='text-lg font-medium'>{storeData?.name}</p>
+                    storeData?.logo && storeData.logo !== '' && content.info.video === 'Logo'
+                      ? <Image src={storeData.logo} alt={`Imagen logo ${storeData.name}`} width={200} height={150} className='w-40' />
+                      : storeData?.logoWhite && storeData.logoWhite !== '' && content.info.video === 'Logo blanco'
+                        ? <Image src={storeData.logoWhite} alt={`Imagen logo ${storeData.name}`} width={200} height={150} className='w-40' />
+                        : <p className='text-lg font-medium'>{storeData?.name}</p>
                   }
                   {
                     calls.find(call => call._id === content.meeting)
@@ -76,8 +78,8 @@ export const Call = ({ calls, content, step, services, payment, storeData, index
                         <>
                           <p className="text-xl font-semibold">{calls.find(call => call._id === content.meeting)?.title}</p>
                           <div className="flex gap-2">
-                            <svg className="w-5 text-gray-500" data-id="details-item-icon" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" role="img"><path d="M.5 5a4.5 4.5 0 1 0 9 0 4.5 4.5 0 1 0-9 0Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5 3.269V5l1.759 2.052" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                            <p className="text-gray-500">{calls.find(call => call._id === content.meeting)?.duration}</p>
+                            <svg className="w-5" style={{ color: `${content.info.textColor}80` }} data-id="details-item-icon" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg" role="img"><path d="M.5 5a4.5 4.5 0 1 0 9 0 4.5 4.5 0 1 0-9 0Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5 3.269V5l1.759 2.052" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                            <p style={{ color: `${content.info.textColor}80` }}>{calls.find(call => call._id === content.meeting)?.duration}</p>
                           </div>
                           {
                             calls.find(call => call._id === content.meeting)?.price
@@ -103,10 +105,20 @@ export const Call = ({ calls, content, step, services, payment, storeData, index
                     )
                     : ''
                 }
+                {
+                  calls.find(call => call._id === content.meeting)?.type === 'Visita' && storeData?.address
+                    ? (
+                      <div className="flex flex-col gap-3">
+                        <p className="font-medium">Dirección:</p>
+                        <p>{storeData?.address}, {storeData?.city}, {storeData?.region}</p>
+                      </div>
+                    )
+                    : ''
+                }
               </div>
             </div>
             <div className="p-6 w-full lg:w-7/12">
-              <Calendar newClient={newClient} setNewClient={setNewClient} call={calls.find(call => call._id === content.meeting)!} tags={calls.find(call => call._id === content.meeting)?.tags!} meeting={calls.find(call => call._id === content.meeting)?._id!} payment={payment} services={services} />
+              <Calendar newClient={newClient} setNewClient={setNewClient} call={calls.find(call => call._id === content.meeting)!} tags={calls.find(call => call._id === content.meeting)?.tags!} meeting={calls.find(call => call._id === content.meeting)?._id!} payment={payment} services={services} style={style} content={content} />
             </div>
           </div>
         </div>

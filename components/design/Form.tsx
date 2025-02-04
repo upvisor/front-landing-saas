@@ -1,18 +1,24 @@
 "use client"
-import React, { useEffect, useState } from 'react'
-import { Button, Check, H1, H2, H3, Input, Select } from '../ui'
-import { IClient, IDesign, IForm, IService, IStoreData } from '@/interfaces'
+import { IClient, IDesign, IForm } from '@/interfaces'
+import React, { useRef, useState } from 'react'
+import { Button, H1, H2, Input, P, Select } from '../ui'
 import axios from 'axios'
-import { usePathname, useRouter } from 'next/navigation'
 import Cookies from 'js-cookie'
-import Image from 'next/image'
-import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
+
+interface Props {
+    content: IDesign
+    index: number
+    style?: any
+    forms?: IForm[]
+}
 
 declare const fbq: Function
 
-export const Lead2 = ({ content, forms, step, index, services, storeData, style }: { content: IDesign, forms: IForm[], step?: string, index: any, services: IService[], storeData: IStoreData, style?: any }) => {
-
-  const [client, setClient] = useState<IClient>({ email: '', tags: forms.find(form => form._id === content.form)?.tags, forms: [{ form: forms.find(form => form._id === content.form)?._id! }] })
+export const Form: React.FC<Props> = ({ content, index, style, forms }) => {
+  const [question, setQuestion] = useState(-1);
+  const contentRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const [client, setClient] = useState<IClient>({ email: '', tags: forms?.find(form => form._id === content.form)?.tags, forms: [{ form: forms?.find(form => form._id === content.form)?._id! }] })
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -20,81 +26,53 @@ export const Lead2 = ({ content, forms, step, index, services, storeData, style 
   const router = useRouter()
   const pathname = usePathname()
 
-  const getFunnel = async () => {
-    try {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/funnel-by-step${pathname}`)
-      const respo = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/funnel-name/${res.data}`)
-      const stepFind = respo.data.steps.find((ste: any) => ste.step === step)
-      const service = services?.find(service => service._id === respo.data.service)
-      if (res.data) {
-        setClient({ ...client, funnels: [{ funnel: respo.data._id, step: stepFind._id }], services: service?._id ? [{ service: service?._id }] : undefined })
-      }
-    } catch (error) {
-      console.log(error)
-    }
-    
-  }
+  const toggleQuestion = (i: number) => {
+    setQuestion(question === i ? -1 : i);
+  };
 
-  useEffect(() => {
-    getFunnel()
-  }, [step])
+  const getMaxHeight = (i: number): string => {
+    if (contentRefs.current[i]) {
+      return question === i ? `${contentRefs.current[i]?.scrollHeight}px` : "0px";
+    }
+    return "0px";
+  };
 
   const getClientValue = (name: string) => client[name] || client.data?.find(dat => dat.name === name)?.value;
 
   return (
-    <div className={`py-10 md:py-20 w-full m-auto flex px-4`} style={{ background: `${content.info.typeBackground === 'Degradado' ? content.info.background : content.info.typeBackground === 'Color' ? content.info.background : ''}` }}>
-      <div className='flex flex-col gap-4 w-full max-w-[1280px] mx-auto'>
-        {
-          content.info.titleForm === 'Logo principal' && storeData.logo && storeData.logo !== ''
-            ? <Link href='/' target='_blank' className='w-fit m-auto'><Image src={storeData.logo} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></Link>
-            : content.info.titleForm === 'Logo blanco' && storeData.logoWhite && storeData.logoWhite !== ''
-              ? <Link href='/' target='_blank' className='w-fit m-auto'><Image src={storeData.logoWhite} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></Link>
-              : ''
-        }
-        <H1 text={content.info.title} config="text-center font-semibold" color={content.info.textColor} />
-        <H2 text={content.info.description} config="text-center font-medium text-xl lg:text-2xl" color={content.info.textColor} />
-        <div className='flex flex-col gap-4'>
-          {
-            content.info.subTitle && content.info.subTitle !== ''
-              ? (
-                <div className='flex gap-3 m-auto'>
-                  <Check config='my-auto' style={style} />
-                  <p className="text-lg text-center lg:text-2xl" style={{ color: content.info.textColor }}>{content.info.subTitle}</p>
-                </div>
+    <div
+      className={`py-10 md:py-20 px-4 m-auto w-full flex`}
+      style={{
+        background: `${
+          content.info.typeBackground === "Degradado"
+            ? content.info.background
+            : content.info.typeBackground === "Color"
+            ? content.info.background
+            : ""
+        }`,
+      }}
+    >
+      <div className='flex flex-col gap-8 w-full max-w-[1280px] m-auto'>
+        {content.info.title && content.info.title !== "" || content.info.description && content.info.description !== "" ? (
+          <div className="flex flex-col gap-4">
+            {content.info.title && content.info.title !== "" ? (
+              index === 0 ? (
+                <H1 text={content.info.title} color={content.info.textColor} config="text-center font-semibold" />
+              ) : (
+                <H2 text={content.info.title} color={content.info.textColor} config="text-center font-semibold" />
               )
-              : ''
-          }
-          {
-            content.info.subTitle2 && content.info.subTitle2 !== ''
-              ? (
-                <div className='flex gap-3 m-auto'>
-                  <Check config='my-auto' style={style} />
-                  <p className="text-lg text-center lg:text-2xl" style={{ color: content.info.textColor }}>{content.info.subTitle2}</p>
-                </div>
-              )
-              : ''
-          }
-          {
-            content.info.subTitle3 && content.info.subTitle3 !== ''
-              ? (
-                <div className='flex gap-3 m-auto'>
-                  <Check config='my-auto' style={style} />
-                  <p className="text-lg text-center lg:text-2xl" style={{ color: content.info.textColor }}>{content.info.subTitle3}</p>
-                </div>
-              )
-              : ''
-          }
-          {
-            content.info.subTitle4 && content.info.subTitle4 !== ''
-              ? (
-                <div className='flex gap-3 m-auto'>
-                  <Check config='my-auto' style={style} />
-                  <p className="text-lg text-center lg:text-2xl" style={{ color: content.info.textColor }}>{content.info.subTitle4}</p>
-                </div>
-              )
-              : ''
-          }
-        </div>
+            ) : (
+              ""
+            )}
+            {content.info.description && content.info.description !== "" ? (
+              <P config="text-center" text={content.info.description} />
+            ) : (
+              ""
+            )}
+          </div>
+        ) : (
+          ""
+        )}
         {
           content.form && content.form !== ''
             ? (
@@ -105,7 +83,7 @@ export const Lead2 = ({ content, forms, step, index, services, storeData, style 
                     setLoading(true)
                     setError('')
                     
-                    const form = forms.find(form => form._id === content.form)
+                    const form = forms?.find(form => form._id === content.form)
                     let valid = true
                     let errorMessage = ''
                 
@@ -171,12 +149,12 @@ export const Lead2 = ({ content, forms, step, index, services, storeData, style 
                     }
                   }
                 }}>
-                  <div className={`${style.design === 'Borde' ? 'border' : ''} flex flex-col gap-4 h-fit m-auto w-full p-6 md:p-8 max-w-[500px] bg-white`} style={{ boxShadow: style.design === 'Sombreado' ? '0px 3px 20px 3px #11111110' : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '' }}>
+                  <div className={`flex flex-col gap-4 h-fit m-auto w-full p-6 md:p-8 max-w-[500px] bg-white`} style={{ boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '', border: style.form === 'Borde' ? `1px solid ${style.borderColor}` : '' }}>
                     {
                       message !== ''
                         ? (
                           <>
-                            <p className='text-xl font-medium'>Formulario completado con exito</p>
+                            <p className='text-xl font-medium'>Fomulario completado con exito</p>
                             <p>{message}</p>
                           </>
                         )
@@ -187,7 +165,11 @@ export const Lead2 = ({ content, forms, step, index, services, storeData, style 
                                 ? <p className='w-fit px-2 py-1 bg-red-500 text-white m-auto'>{error}</p>
                                 : ''
                             }
-                            <p className="text-main text-xl font-medium text-center">{forms?.find(form => form._id === content.form)?.title}</p>
+                            {
+                              forms?.find(form => form._id === content.form)?.title !== ''
+                                ? <p className="text-xl font-medium text-center" style={{ color: style.primary }}>{forms?.find(form => form._id === content.form)?.title}</p>
+                                : ''
+                            }
                             {
                               forms?.find(form => form._id === content.form)?.informations.map(information => (
                                 <div key={information.text} className="flex gap-2">
@@ -277,5 +259,5 @@ export const Lead2 = ({ content, forms, step, index, services, storeData, style 
         }
       </div>
     </div>
-  )
-}
+  );
+};
