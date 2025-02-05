@@ -41,7 +41,7 @@ export const Block1 = ({ content, index, calls, forms, design, payment, style }:
           <div className="w-full flex md:w-1/2">
             {
               content.info?.image && content.info.image !== ''
-                ? <Image className={`h-fit m-auto`} style={{ boxShadow: style.design === 'Sombreado' ? '0px 3px 20px 3px #11111110' : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '' }} width={1080} height={1080} alt='Imagen slider prueba' src={content.info.image} />
+                ? <Image className={`h-fit m-auto`} style={{ boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '', border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '' }} width={1080} height={1080} alt='Imagen slider prueba' src={content.info.image} />
                 : ''
             }
           </div>

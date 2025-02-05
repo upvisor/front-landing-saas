@@ -69,7 +69,7 @@ export const Block5 = ({ content, index, calls, forms, design, payment, style }:
             </div>
             {
               content.info?.image && content.info.image !== ''
-                ? <Image className={`h-fit mx-auto mt-4`} style={{ boxShadow: style.design === 'Sombreado' ? '0px 3px 20px 3px #11111110' : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '' }} width={480} height={300} alt='Imagen slider prueba' src={content.info.image} />
+                ? <Image className={`h-fit mx-auto mt-4`} style={{ boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '', border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '' }} width={480} height={300} alt='Imagen slider prueba' src={content.info.image} />
                 : ''
             }
         </div>
