@@ -1,6 +1,6 @@
 "use client"
 import Link from 'next/link'
-import React, { PropsWithChildren, useState } from 'react'
+import React, { PropsWithChildren, useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import { Design, IPolitics, IStoreData } from '@/interfaces'
@@ -20,8 +20,57 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
   const [menu, setMenu] = useState('-ml-[350px]')
   const [index, setIndex] = useState('hidden')
   const [subPages, setSubPages] = useState(-1)
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageLoaded2, setImageLoaded2] = useState(false);
+    
+  const imageRef = useRef(null);
+  const imageRef2 = useRef(null);
 
   const pathname = usePathname()
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setImageLoaded(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.7 }
+    );
+
+    if (imageRef.current) {
+      observer.observe(imageRef.current);
+    }
+
+    return () => {
+      if (imageRef.current) {
+        observer.unobserve(imageRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setImageLoaded(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.7 }
+    );
+
+    if (imageRef2.current) {
+      observer.observe(imageRef2.current);
+    }
+
+    return () => {
+      if (imageRef2.current) {
+        observer.unobserve(imageRef2.current);
+      }
+    };
+  }, []);
 
   return (
     <>
@@ -44,9 +93,9 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
           <div className='hidden gap-2 sm:flex'>
             {
               storeData?.logo && storeData?.logo !== '' && design.header?.logo === 'Logo'
-                ? <Link href='/'><Image className='w-auto h-[60px] py-1' src={`${storeData.logo}`} alt='Logo' width={320} height={150} /></Link>
+                ? <Link href='/'><Image ref={imageRef} className={`${imageLoaded ? 'opacity-1' : 'opacity-0'} transition-all duration-500 w-auto h-[60px] py-1`} src={`${storeData.logo}`} alt='Logo' width={320} height={150} /></Link>
                 : storeData?.logoWhite && storeData?.logoWhite !== '' && design.header?.logo === 'Logo blanco'
-                  ? <Link href='/'><Image className='w-auto h-[60px] py-1' src={`${storeData.logoWhite}`} alt='Logo blanco' width={320} height={150} /></Link>
+                  ? <Link href='/'><Image ref={imageRef2} className={`${imageLoaded2 ? 'opacity-1' : 'opacity-0'} transition-all duration-500 w-auto h-[60px] py-1`} src={`${storeData.logoWhite}`} alt='Logo blanco' width={320} height={150} /></Link>
                   : <Link href='/'><div className='h-[60px] flex'><p className='m-auto text-2xl font-medium'>SITIO WEB</p></div></Link>
             }
           </div>
