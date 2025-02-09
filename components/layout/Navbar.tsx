@@ -31,7 +31,7 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
         pathname !== '/finalizar-compra'
           ? design.header?.topStrip && design.header.topStrip !== ''
             ? (
-              <div className='bg-[#22262c] text-white flex pl-2 pr-2 pt-1.5 pb-1.5 text-center sticky z-50'>
+              <div className='flex pl-2 pr-2 pt-1.5 pb-1.5 text-center sticky z-50' style={{ backgroundColor: design.header?.bgColorTop, color: design.header?.textColorTop }}>
                 <p className='m-auto font-medium text-[13px]'>{design.header.topStrip}</p>
               </div>
             )

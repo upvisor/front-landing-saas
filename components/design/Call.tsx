@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Calendar, H1, H2, P } from '../ui'
 import { ICall, IClient, IDesign, IPayment, IService, IStoreData } from '@/interfaces'
 import axios from 'axios'
@@ -11,6 +11,9 @@ import Image from 'next/image'
 export const Call = ({ calls, content, step, services, payment, storeData, index, style }: { calls: ICall[], content: IDesign, step?: string, services: IService[], payment: IPayment, storeData?: IStoreData, index: number, style?: any }) => {
 
   const [newClient, setNewClient] = useState<IClient>({ email: '', meetings: [{ meeting: calls.find(call => call._id === content.meeting)?._id! }] })
+  const [view, setView] = useState(false)
+  const [calendar, setCalendar] = useState(false)
+  const ref = useRef(null)
 
   const pathname = usePathname()
 
@@ -30,8 +33,33 @@ export const Call = ({ calls, content, step, services, payment, storeData, index
     getFunnel()
   }, [step])
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setView(true);
+          observer.unobserve(entry.target);
+          setTimeout(() => {
+            setCalendar(true)
+          }, 200);
+        }
+      },
+      { threshold: 0.7 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, []);
+
   return (
-    <div className={`py-10 md:py-20 flex flex-col gap-16 px-4`} style={{ background: `${content.info.typeBackground === 'Degradado' ? content.info.background : content.info.typeBackground === 'Color' ? content.info.background : ''}` }}>
+    <div ref={ref} className={`py-10 md:py-20 flex flex-col gap-16 px-4`} style={{ background: `${content.info.typeBackground === 'Degradado' ? content.info.background : content.info.typeBackground === 'Color' ? content.info.background : ''}` }}>
       <div className="w-full flex flex-col gap-8 max-w-[1280px] m-auto">
         {
           content.info.titleForm === 'Logo principal' && storeData?.logo && storeData.logo !== ''
@@ -43,7 +71,7 @@ export const Call = ({ calls, content, step, services, payment, storeData, index
         {
           content.info.title && content.info.title !== '' || content.info.description && content.info.description !== ''
             ? (
-              <div className='flex flex-col gap-4'>
+              <div className={`flex flex-col gap-4`}>
                 {
                   content.info.title && content.info.title !== ''
                     ? index === 0
@@ -63,7 +91,7 @@ export const Call = ({ calls, content, step, services, payment, storeData, index
         <div className={`m-auto w-full`} style={{ boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '', border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '', color: content.info.textColor }}>
           <div className="lg:flex">
             <div className="p-6 md:p-8 border-b border-black/5 lg:border-b-0 lg:border-r flex flex-col gap-8 w-full lg:w-5/12">
-              <div className='flex flex-col gap-6 sticky top-20'>
+              <div className={`${view ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 flex flex-col gap-6 sticky top-20`}>
                 <div className="flex flex-col gap-3">
                   {
                     storeData?.logo && storeData.logo !== '' && content.info.video === 'Logo'
@@ -117,7 +145,7 @@ export const Call = ({ calls, content, step, services, payment, storeData, index
                 }
               </div>
             </div>
-            <div className="p-6 w-full lg:w-7/12">
+            <div className={`${calendar ? 'opacity-1' : 'opacity-0'} transition-opacity duration-500 p-6 w-full lg:w-7/12`}>
               <Calendar newClient={newClient} setNewClient={setNewClient} call={calls.find(call => call._id === content.meeting)!} tags={calls.find(call => call._id === content.meeting)?.tags!} meeting={calls.find(call => call._id === content.meeting)?._id!} payment={payment} services={services} style={style} content={content} />
             </div>
           </div>

@@ -1,20 +1,29 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button, Check, H1, H2, Input, P, Select } from '../ui'
-import { IClient, IDesign, IForm, IService } from '@/interfaces'
+import { IClient, IDesign, IForm, IService, IStoreData } from '@/interfaces'
 import axios from 'axios'
 import { usePathname, useRouter } from 'next/navigation'
 import Cookies from 'js-cookie'
+import Link from 'next/link'
+import Image from 'next/image'
 
 declare const fbq: Function
 
-export const Lead1 = ({ content, forms, step, index, services, style }: { content: IDesign, forms: IForm[], step?: string, index: any, services?: IService[], style?: any }) => {
+export const Lead1 = ({ content, forms, step, index, services, style, storeData }: { content: IDesign, forms: IForm[], step?: string, index: any, services?: IService[], style?: any, storeData?: IStoreData }) => {
 
   const [client, setClient] = useState<IClient>({ email: '', tags: forms.find(form => form._id === content.form)?.tags, forms: [{ form: forms.find(form => form._id === content.form)?._id! }] })
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [data, setData] = useState([])
+  const [view, setView] = useState(false)
+  const [viewLogo, setViewLogo] = useState(false)
+  const [viewLogo2, setViewLogo2] = useState(false)
+  
+  const ref = useRef(null)
+  const refLogo = useRef(null)
+  const refLogo2 = useRef(null)
 
   const router = useRouter()
   const pathname = usePathname()
@@ -38,6 +47,74 @@ export const Lead1 = ({ content, forms, step, index, services, style }: { conten
     getFunnel()
   }, [step])
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            setView(true);
+          }, 100);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.7 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setViewLogo(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.7 }
+    );
+
+    if (refLogo.current) {
+      observer.observe(refLogo.current);
+    }
+
+    return () => {
+      if (refLogo.current) {
+        observer.unobserve(refLogo.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setViewLogo2(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.7 }
+    );
+
+    if (refLogo2.current) {
+      observer.observe(refLogo2.current);
+    }
+
+    return () => {
+      if (refLogo2.current) {
+        observer.unobserve(refLogo2.current);
+      }
+    };
+  }, []);
+
   const getClientData = async () => {
     const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/client-data`)
     setData(res.data)
@@ -51,6 +128,13 @@ export const Lead1 = ({ content, forms, step, index, services, style }: { conten
     <div className={`py-10 md:py-20 w-full flex px-4`} style={{ background: `${content.info.typeBackground === 'Degradado' ? content.info.background : content.info.typeBackground === 'Color' ? content.info.background : ''}` }}>
       <div className="flex flex-col gap-8 m-auto w-full max-w-[1280px] lg:flex-row">
         <div className='w-full flex flex-col gap-4 my-auto lg:w-1/2'>
+          {
+            content.info.titleForm === 'Logo principal' && storeData?.logo && storeData.logo !== ''
+              ? <Link ref={refLogo} href='/' target='_blank' className={`${viewLogo ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 w-fit m-auto`}><Image src={storeData.logo} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></Link>
+              : content.info.titleForm === 'Logo blanco' && storeData?.logoWhite && storeData.logoWhite !== ''
+                ? <Link ref={refLogo2} href='/' target='_blank' className={`${viewLogo2 ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 w-fit m-auto`}><Image src={storeData.logoWhite} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></Link>
+                : ''
+          }
           {
             content.info.description2 && content.info.description2 !== ''
               ? <p className='px-4 py-2 w-fit text-base lg:text-lg' style={{ backgroundColor: style.primary, color: style.button }}>{content.info.description2}</p>
@@ -104,7 +188,7 @@ export const Lead1 = ({ content, forms, step, index, services, style }: { conten
         {
           content.form && content.form !== ''
             ? (
-              <div className='w-full flex lg:w-1/2'>
+              <div ref={ref} className={`${view ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 w-full flex lg:w-1/2`}>
                 <form className="flex w-full" onSubmit={async (e: any) => {
                   e.preventDefault()
                   if (!loading) {

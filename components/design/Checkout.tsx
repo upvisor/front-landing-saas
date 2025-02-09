@@ -50,7 +50,11 @@ export const Checkout: React.FC<Props> = ({ content, services, step, payment, st
   const [url, setUrl] = useState('')
   const [transbankLoading, setTransbankLoading] = useState(false)
   const [paymentFailed, setPaymentFailed] = useState(false)
+  const [viewLogo, setViewLogo] = useState(false)
+  const [viewLogo2, setViewLogo2] = useState(false)
 
+  const refLogo = useRef(null)
+  const refLogo2 = useRef(null)
   const clientRef = useRef(client);
   const initializationRef = useRef(initialization)
   const paymentIdRef = useRef(null)
@@ -219,9 +223,9 @@ export const Checkout: React.FC<Props> = ({ content, services, step, payment, st
       <div className='m-auto w-full max-w-[1280px] gap-6 flex flex-col'>
         { 
           content.info.titleForm === 'Logo principal' && storeData.logo && storeData.logo !== ''
-            ? <Link href='/' target='_blank' className='w-fit m-auto'><Image src={storeData.logo} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></Link>
+            ? <Link ref={refLogo} href='/' target='_blank' className={`${viewLogo ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 w-fit m-auto`}><Image src={storeData.logo} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></Link>
             : content.info.titleForm === 'Logo blanco' && storeData.logoWhite && storeData.logoWhite !== ''
-              ? <Link href='/' target='_blank' className='w-fit m-auto'><Image src={storeData.logoWhite} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></Link>
+              ? <Link ref={refLogo2} href='/' target='_blank' className={`${viewLogo2 ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 w-fit m-auto`}><Image src={storeData.logoWhite} alt={`Logo ${storeData.name}`} width={320} height={150} className='w-44 m-auto lg:w-52' /></Link>
               : ''
         }
         {

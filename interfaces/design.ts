@@ -12,11 +12,14 @@ export interface IHeader {
     bgColor?: string
     textColor?: string
     logo?: string
+    bgColorTop?: string
+    textColorTop?: string
 }
 
 export interface IFooter {
     bgColor: string
     textColor: string
+    funnelText?: string
 }
 
 export interface IPage {

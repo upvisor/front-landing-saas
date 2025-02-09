@@ -10,6 +10,7 @@ const myFont = localFont({
   display: 'swap',
 })
 
+
 export const metadata: Metadata = {
   title: {
     default: 'Upvisor',
@@ -28,6 +29,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={myFont.className}>
+      <head>
+        <link rel="icon" href={process.env.NEXT_PUBLIC_FAVICON} />
+      </head>
       <body className="overflow-x-hidden">
         <Providers>
           <MainLayout>

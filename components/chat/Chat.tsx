@@ -16,9 +16,10 @@ interface Props {
   style?: any
   storeData?: IStoreData
   design: any
+  viewChat: boolean
 }
 
-export const Chat: React.FC<Props> = ({ style, storeData,design }) => {
+export const Chat: React.FC<Props> = ({ style, storeData, design, viewChat }) => {
 
   const [chatOpacity, setChatOpacity] = useState('-mb-[700px]')
   const [chat, setChat] = useState<IMessage[]>([{
@@ -164,7 +165,7 @@ export const Chat: React.FC<Props> = ({ style, storeData,design }) => {
             chat[0].userView = true
             setChat(chat)
           }
-        }} aria-label='Botón para abrir y cerrar el chat' id='chat' className='w-14 h-14 z-50 flex rounded-full fixed bottom-4 right-4 ml-auto' style={{ backgroundColor: style.primary }}>
+        }} aria-label='Botón para abrir y cerrar el chat' id='chat' className={`${viewChat ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 w-14 h-14 z-50 flex rounded-full fixed bottom-4 right-4 ml-auto`} style={{ backgroundColor: style.primary }}>
           {
             chatOpacity === '-mb-[700px]'
               ? (

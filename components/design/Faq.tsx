@@ -86,7 +86,7 @@ export const Faq: React.FC<Props> = ({ content, index, style, services }) => {
                 fill="currentColor"
                 strokeWidth="0"
                 viewBox="0 0 512 512"
-                className={`my-auto text-2xl transition-transform duration-300 ${
+                className={`my-auto min-w-6 text-2xl transition-transform duration-300 ${
                   question === i ? "rotate-180" : ""
                 }`}
                 height="1em"
