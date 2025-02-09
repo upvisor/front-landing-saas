@@ -58,7 +58,7 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setImageLoaded(true);
+          setImageLoaded2(true);
           observer.unobserve(entry.target);
         }
       },
@@ -80,7 +80,7 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setImageLoaded(true);
+          setImageLoaded3(true);
           observer.unobserve(entry.target);
         }
       },
@@ -102,7 +102,7 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setImageLoaded(true);
+          setImageLoaded4(true);
           observer.unobserve(entry.target);
         }
       },
@@ -206,9 +206,9 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
                   <div className='flex gap-2 sm:hidden'>
                     {
                       storeData?.logo && storeData?.logo !== '' && design.header?.logo === 'Logo'
-                        ? <Link href='/'><Image className={`${imageLoaded3 ? 'opacity-1' : 'opacity-0'} transition-all duration-500 w-auto h-[52px] py-0.5`} src={`${storeData.logo}`} alt='Logo' width={320} height={150} /></Link>
+                        ? <Link href='/'><Image ref={imageRef3} className={`${imageLoaded3 ? 'opacity-1' : 'opacity-0'} transition-all duration-500 w-auto h-[52px] py-0.5`} src={`${storeData.logo}`} alt='Logo' width={320} height={150} /></Link>
                         : storeData?.logoWhite && storeData?.logoWhite !== '' && design.header?.logo === 'Logo blanco'
-                          ? <Link href='/'><Image className={`${imageLoaded4 ? 'opacity-1' : 'opacity-0'} transition-all duration-500 w-auto h-[52px] py-0.5`} src={`${storeData.logoWhite}`} alt='Logo blanco' width={320} height={150} /></Link>
+                          ? <Link href='/'><Image ref={imageRef4} className={`${imageLoaded4 ? 'opacity-1' : 'opacity-0'} transition-all duration-500 w-auto h-[52px] py-0.5`} src={`${storeData.logoWhite}`} alt='Logo blanco' width={320} height={150} /></Link>
                           : <Link href='/'><div className='h-[52px] flex'><p className='m-auto text-2xl font-medium'>SITIO WEB</p></div></Link>
                     }
                   </div>
