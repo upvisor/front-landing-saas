@@ -81,7 +81,7 @@ export const ContactPage = ({ info, index, style }: { info: IInfo, index: any, s
           observer.unobserve(entry.target);
         }
       },
-      { threshold: 1 }
+      { threshold: 0.7 }
     );
 
     if (ref.current) {
