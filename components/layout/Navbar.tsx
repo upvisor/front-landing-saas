@@ -22,9 +22,13 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
   const [subPages, setSubPages] = useState(-1)
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageLoaded2, setImageLoaded2] = useState(false);
+  const [imageLoaded3, setImageLoaded3] = useState(false);
+  const [imageLoaded4, setImageLoaded4] = useState(false);
     
   const imageRef = useRef(null);
   const imageRef2 = useRef(null);
+  const imageRef3 = useRef(null);
+  const imageRef4 = useRef(null);
 
   const pathname = usePathname()
 
@@ -68,6 +72,50 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
     return () => {
       if (imageRef2.current) {
         observer.unobserve(imageRef2.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setImageLoaded(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.7 }
+    );
+
+    if (imageRef3.current) {
+      observer.observe(imageRef3.current);
+    }
+
+    return () => {
+      if (imageRef3.current) {
+        observer.unobserve(imageRef3.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setImageLoaded(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.7 }
+    );
+
+    if (imageRef4.current) {
+      observer.observe(imageRef4.current);
+    }
+
+    return () => {
+      if (imageRef4.current) {
+        observer.unobserve(imageRef4.current);
       }
     };
   }, []);
@@ -158,9 +206,9 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
                   <div className='flex gap-2 sm:hidden'>
                     {
                       storeData?.logo && storeData?.logo !== '' && design.header?.logo === 'Logo'
-                        ? <Link href='/'><Image className='w-auto h-[52px] py-0.5' src={`${storeData.logo}`} alt='Logo' width={320} height={150} /></Link>
+                        ? <Link href='/'><Image className={`${imageLoaded3 ? 'opacity-1' : 'opacity-0'} transition-all duration-500 w-auto h-[52px] py-0.5`} src={`${storeData.logo}`} alt='Logo' width={320} height={150} /></Link>
                         : storeData?.logoWhite && storeData?.logoWhite !== '' && design.header?.logo === 'Logo blanco'
-                          ? <Link href='/'><Image className='w-auto h-[52px] py-0.5' src={`${storeData.logoWhite}`} alt='Logo blanco' width={320} height={150} /></Link>
+                          ? <Link href='/'><Image className={`${imageLoaded4 ? 'opacity-1' : 'opacity-0'} transition-all duration-500 w-auto h-[52px] py-0.5`} src={`${storeData.logoWhite}`} alt='Logo blanco' width={320} height={150} /></Link>
                           : <Link href='/'><div className='h-[52px] flex'><p className='m-auto text-2xl font-medium'>SITIO WEB</p></div></Link>
                     }
                   </div>
