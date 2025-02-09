@@ -67,7 +67,7 @@ export const Block2 = ({ content, index, calls, forms, design, payment, style }:
           <div className="w-full hidden md:w-1/2 md:flex">
             {
               content.info?.image && content.info.image !== ''
-                ? <Image ref={imageRef2} className={`${imageLoaded2 ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 h-fit m-auto`} style={{ boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '', border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '' }} width={1080} height={1080} alt='Imagen slider prueba' src={content.info.image} />
+                ? <Image ref={imageRef2} className={`${imageLoaded2 ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 h-fit m-auto`} style={{ boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '', border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '' }} width={700} height={500} alt='Imagen slider prueba' src={content.info.image} />
                 : ''
             }
           </div>
@@ -96,7 +96,7 @@ export const Block2 = ({ content, index, calls, forms, design, payment, style }:
           <div className="w-full flex md:w-1/2 md:hidden">
             {
               content.info?.image && content.info.image !== ''
-                ? <Image ref={imageRef} className={`${imageLoaded ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 h-fit m-auto`} style={{ boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '', border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '' }} width={1080} height={1080} alt='Imagen slider prueba' src={content.info.image} />
+                ? <Image ref={imageRef} className={`${imageLoaded ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 h-fit m-auto`} style={{ boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '', border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '' }} width={700} height={500} alt='Imagen slider prueba' src={content.info.image} />
                 : ''
             }
           </div>
