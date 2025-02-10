@@ -59,7 +59,7 @@ export const Call = ({ calls, content, step, services, payment, storeData, index
   }, []);
 
   return (
-    <div ref={ref} className={`py-10 md:py-20 flex flex-col gap-16 px-4`} style={{ background: `${content.info.typeBackground === 'Degradado' ? content.info.background : content.info.typeBackground === 'Color' ? content.info.background : ''}` }}>
+    <div className={`py-10 md:py-20 flex flex-col gap-16 px-4`} style={{ background: `${content.info.typeBackground === 'Degradado' ? content.info.background : content.info.typeBackground === 'Color' ? content.info.background : ''}` }}>
       <div className="w-full flex flex-col gap-8 max-w-[1280px] m-auto">
         {
           content.info.titleForm === 'Logo principal' && storeData?.logo && storeData.logo !== ''
@@ -90,7 +90,7 @@ export const Call = ({ calls, content, step, services, payment, storeData, index
         }
         <div className={`m-auto w-full`} style={{ boxShadow: style.design === 'Sombreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', borderRadius: style.form === 'Redondeadas' ? `${style.borderBlock}px` : '', border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '', color: content.info.textColor }}>
           <div className="lg:flex">
-            <div className="p-6 md:p-8 border-b border-black/5 lg:border-b-0 lg:border-r flex flex-col gap-8 w-full lg:w-5/12">
+            <div ref={ref} className="p-6 md:p-8 border-b border-black/5 lg:border-b-0 lg:border-r flex flex-col gap-8 w-full lg:w-5/12">
               <div className={`${view ? 'opacity-1' : 'opacity-0 translate-y-6'} transition-all duration-500 flex flex-col gap-6 sticky top-20`}>
                 <div className="flex flex-col gap-3">
                   {
