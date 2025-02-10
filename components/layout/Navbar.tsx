@@ -217,7 +217,7 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
               })
             }
           </div>
-          <div className='h-full' style={{ width: 'calc(100% - 313px)' }} onClick={() => {
+          <div className='h-full' style={{ width: 'calc(100% - 284px)' }} onClick={() => {
             setMenu('-ml-[350px]')
             setTimeout(() => {
               setIndex('hidden')
