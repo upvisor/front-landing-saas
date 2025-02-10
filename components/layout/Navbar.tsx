@@ -24,6 +24,13 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
   const [imageLoaded2, setImageLoaded2] = useState(false);
   const [imageLoaded3, setImageLoaded3] = useState(false);
   const [imageLoaded4, setImageLoaded4] = useState(false);
+  const [element1, setElement1] = useState(false)
+  const [element2, setElement2] = useState(false)
+  const [element3, setElement3] = useState(false)
+  const [element4, setElement4] = useState(false)
+  const [element5, setElement5] = useState(false)
+  const [element6, setElement6] = useState(false)
+  const [element7, setElement7] = useState(false)
     
   const imageRef = useRef(null);
   const imageRef2 = useRef(null);
@@ -185,6 +192,27 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
                             setIndex('flex')
                             setTimeout(() => {
                               setMenu('')
+                              setTimeout(() => {
+                                setElement1(true)
+                                setTimeout(() => {
+                                  setElement2(true)
+                                  setTimeout(() => {
+                                    setElement3(true)
+                                    setTimeout(() => {
+                                      setElement4(true)
+                                      setTimeout(() => {
+                                        setElement5(true)
+                                        setTimeout(() => {
+                                          setElement6(true)
+                                          setTimeout(() => {
+                                            setElement7(true)
+                                          }, 50)
+                                        }, 50)
+                                      }, 50)
+                                    }, 50)
+                                  }, 50)
+                                }, 50)
+                              }, 200)
                             }, 10)
                           }} aria-label='Boton para abrir el menu'>
                           <svg className="w-5" role="presentation" viewBox="0 0 20 14">
@@ -195,6 +223,13 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
                             setMenu('-ml-[350px]')
                             setTimeout(() => {
                               setIndex('hidden')
+                              setElement1(false)
+                              setElement2(false)
+                              setElement3(false)
+                              setElement4(false)
+                              setElement5(false)
+                              setElement6(false)
+                              setElement7(false)
                             }, 500)
                           }} className='flex w-5' aria-label='Boton para cerrar el menu'>
                           <svg className="m-auto w-[17px]" role="presentation" viewBox="0 0 16 14">
@@ -233,32 +268,43 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
         <div className={`${index} w-full ${menu === '' ? 'bg-black/30' : ''} transition-colors duration-500 absolute z-30 justify-between 530:hidden`} style={{ top: '60px', height: 'calc(100vh - 49px)' }}>
           <div className={`${menu} flex flex-col p-4 shadow-md transition-all duration-500 overflow-hidden`} style={{ backgroundColor: design.header?.bgColor }}>
             {
-              design.pages?.map(page => {
-                if (page.header) {
-                  if (page.button) {
+              design.pages?.filter(page => page.header).map((page, index) => {
+                if (page.button) {
+                  return (
+                    <LinkButton key={page.slug} url={page.slug} config={`${index === 0 ? element1 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 1 ? element2 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 2 ? element3 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 3 ? element4 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 4 ? element5 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 5 ? element6 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 6 ? element7 ? 'opacity-1' : 'opacity-0 translate-y-4' : ''} transition-all duration-500 py-[6px] mx-auto mb-4`} style={style} click={() => {
+                      setMenu('-ml-[350px]')
+                      setTimeout(() => {
+                        setIndex('hidden')
+                        setElement1(false)
+                        setElement2(false)
+                        setElement3(false)
+                        setElement4(false)
+                        setElement5(false)
+                        setElement6(false)
+                        setElement7(false)
+                      }, 500)
+                    }}>{page.page}</LinkButton>
+                  )
+                } else {
+                  if (page.subPage?.length) {
+                    return <SubPage key={page.slug} page={page} setMenu={setMenu} setIndex={setIndex} design={design} style={style} element1={element1} element2={element2} element3={element3} element4={element4} element5={element5} element6={element6} element7={element7} index={index} />
+                  } else {
                     return (
-                      <LinkButton key={page.slug} url={page.slug} config='py-[6px] mx-auto mb-4' style={style} click={() => {
+                      <Link key={page.slug} className={`${index === 0 ? element1 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 1 ? element2 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 2 ? element3 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 3 ? element4 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 4 ? element5 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 5 ? element6 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 6 ? element7 ? 'opacity-1' : 'opacity-0 translate-y-4' : ''} transition-all duration-500 font-medium mb-4 flex pb-2 min-w-[250px] border-b`} style={{ color: design.header?.textColor, borderBottom: `1px solid ${style.borderColor}` }} onClick={() => {
                         setMenu('-ml-[350px]')
                         setTimeout(() => {
                           setIndex('hidden')
+                          setElement1(false)
+                          setElement2(false)
+                          setElement3(false)
+                          setElement4(false)
+                          setElement5(false)
+                          setElement6(false)
+                          setElement7(false)
                         }, 500)
-                      }}>{page.page}</LinkButton>
+                      }} href={`/${page.slug}`}>{page.page}<svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 1024 1024" className="ml-auto w-4 text-lg text-neutral-500" xmlns="http://www.w3.org/2000/svg"><path d="M765.7 486.8L314.9 134.7A7.97 7.97 0 0 0 302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 0 0 0-50.4z"></path></svg></Link>
                     )
-                  } else {
-                    if (page.subPage?.length) {
-                      return <SubPage key={page.slug} page={page} setMenu={setMenu} setIndex={setIndex} design={design} style={style} />
-                    } else {
-                      return (
-                        <Link key={page.slug} className={`font-medium mb-4 flex pb-2 min-w-[250px] border-b`} style={{ color: design.header?.textColor, borderBottom: `1px solid ${style.borderColor}` }} onClick={() => {
-                          setMenu('-ml-[350px]')
-                          setTimeout(() => {
-                            setIndex('hidden')
-                          }, 500)
-                        }} href={`/${page.slug}`}>{page.page}<svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 1024 1024" className="ml-auto w-4 text-lg text-neutral-500" xmlns="http://www.w3.org/2000/svg"><path d="M765.7 486.8L314.9 134.7A7.97 7.97 0 0 0 302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 0 0 0-50.4z"></path></svg></Link>
-                      )
-                    }
                   }
-                
                 }
               })
             }
@@ -267,6 +313,13 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
             setMenu('-ml-[350px]')
             setTimeout(() => {
               setIndex('hidden')
+              setElement1(false)
+              setElement2(false)
+              setElement3(false)
+              setElement4(false)
+              setElement5(false)
+              setElement6(false)
+              setElement7(false)
             }, 500)
           }} />
         </div>

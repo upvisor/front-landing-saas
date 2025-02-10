@@ -8,9 +8,17 @@ interface Props {
     setIndex: any
     design: any
     style: any
+    element1: boolean
+    element2: boolean
+    element3: boolean
+    element4: boolean
+    element5: boolean
+    element6: boolean
+    element7: boolean
+    index: any
 }
 
-export const SubPage: React.FC<Props> = ({ page, setMenu, setIndex, design, style }) => {
+export const SubPage: React.FC<Props> = ({ page, setMenu, setIndex, design, style, element1, element2, element3, element4, element5, element6, element7, index }) => {
 
   const [subPage, setSubPage] = useState(0)
   const [rotate, setRotate] = useState('rotate-90')
@@ -25,7 +33,7 @@ export const SubPage: React.FC<Props> = ({ page, setMenu, setIndex, design, styl
 
   return (
     <>
-      <div key={page.slug} className={`font-medium mb-4 flex pb-2 min-w-[250px] border-b`} style={{ borderBottom: `1px solid ${style.borderColor}` }}><Link style={{ color: design.header.textColor }} href={`/${page.slug}`} onClick={() => {
+      <div key={page.slug} className={`${index === 0 ? element1 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 1 ? element2 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 2 ? element3 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 3 ? element4 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 4 ? element5 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 5 ? element6 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 6 ? element7 ? 'opacity-1' : 'opacity-0 translate-y-4' : ''} transition-all duration-500 font-medium mb-4 flex pb-2 min-w-[250px] border-b`} style={{ borderBottom: `1px solid ${style.borderColor}` }}><Link style={{ color: design.header.textColor }} href={`/${page.slug}`} onClick={() => {
         setMenu('-ml-[350px]')
         setTimeout(() => {
           setIndex('hidden')
@@ -34,7 +42,7 @@ export const SubPage: React.FC<Props> = ({ page, setMenu, setIndex, design, styl
       {
         page.subPage.length
           ? (
-            <div ref={subPageRef} className='flex flex-col gap-2' style={{ maxHeight: `${subPage}px`, overflow: 'hidden', transition: 'max-height 0.5s' }}>
+            <div ref={subPageRef} className={`${index === 0 ? element1 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 1 ? element2 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 2 ? element3 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 3 ? element4 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 4 ? element5 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 5 ? element6 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 6 ? element7 ? 'opacity-1' : 'opacity-0 translate-y-4' : ''} transition-all duration-500 flex flex-col gap-2`} style={{ maxHeight: `${subPage}px`, overflow: 'hidden' }}>
               {
                 page.subPage.map((subPage: any) => <Link key={subPage.slug} href={subPage.slug!} style={{ color: design.header.textColor }} onClick={() => {
                   setMenu('-ml-[350px]')
