@@ -47,7 +47,7 @@ export const AllNavbar: React.FC<PropsWithChildren<Props>> = ({ children, design
       setViewWhatsapp(true)
       setTimeout(() => {
         setViewChat(true)
-      }, 100);
+      }, 50);
     }, 200);
     
   }, [])

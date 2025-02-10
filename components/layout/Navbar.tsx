@@ -20,10 +20,7 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
   const [menu, setMenu] = useState('-ml-[350px]')
   const [index, setIndex] = useState('hidden')
   const [subPages, setSubPages] = useState(-1)
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageLoaded2, setImageLoaded2] = useState(false);
-  const [imageLoaded3, setImageLoaded3] = useState(false);
-  const [imageLoaded4, setImageLoaded4] = useState(false);
+  const [view, setView] = useState(false)
   const [element1, setElement1] = useState(false)
   const [element2, setElement2] = useState(false)
   const [element3, setElement3] = useState(false)
@@ -31,101 +28,12 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
   const [element5, setElement5] = useState(false)
   const [element6, setElement6] = useState(false)
   const [element7, setElement7] = useState(false)
-    
-  const imageRef = useRef(null);
-  const imageRef2 = useRef(null);
-  const imageRef3 = useRef(null);
-  const imageRef4 = useRef(null);
 
   const pathname = usePathname()
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setImageLoaded(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.7 }
-    );
-
-    if (imageRef.current) {
-      observer.observe(imageRef.current);
-    }
-
-    return () => {
-      if (imageRef.current) {
-        observer.unobserve(imageRef.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setImageLoaded2(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.7 }
-    );
-
-    if (imageRef2.current) {
-      observer.observe(imageRef2.current);
-    }
-
-    return () => {
-      if (imageRef2.current) {
-        observer.unobserve(imageRef2.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setImageLoaded3(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.7 }
-    );
-
-    if (imageRef3.current) {
-      observer.observe(imageRef3.current);
-    }
-
-    return () => {
-      if (imageRef3.current) {
-        observer.unobserve(imageRef3.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setImageLoaded4(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.7 }
-    );
-
-    if (imageRef4.current) {
-      observer.observe(imageRef4.current);
-    }
-
-    return () => {
-      if (imageRef4.current) {
-        observer.unobserve(imageRef4.current);
-      }
-    };
-  }, []);
+    setView(true)
+  }, [])
 
   return (
     <>
@@ -142,15 +50,15 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
             : ''
           : ''
       }
-      <div style={{ top: '-0.5px' }} className='sticky flex w-full z-40 flex-col'>
+      <div style={{ top: '-0.5px' }} className={`${view ? 'opacity-1' : 'opacity-0 -translate-y-16'} transition-all duration-500 sticky flex w-full z-40 flex-col`}>
         <div className={`z-40 m-auto w-full absolute flex justify-between px-2 sm:py-0`} style={{ boxShadow: style.design === 'Sombreado' ? `0px 0px 10px 0px ${style.borderColor}15` : '', backgroundColor: design.header?.bgColor, color: design.header?.textColor, borderBottom: style.design === 'Borde' ? subPages !== -1 ? '' : `1px solid ${style.borderColor}` : '' }}>
           <div className='m-auto w-[1280px] flex justify-between py-1 sm:py-0'>
           <div className='hidden gap-2 sm:flex'>
             {
               storeData?.logo && storeData?.logo !== '' && design.header?.logo === 'Logo'
-                ? <Link href='/'><Image ref={imageRef} className={`${imageLoaded ? 'opacity-1' : 'opacity-0'} transition-all duration-500 w-auto h-[60px] py-1`} src={`${storeData.logo}`} alt='Logo' width={320} height={150} /></Link>
+                ? <Link href='/'><Image className={`w-auto h-[60px] py-1`} src={`${storeData.logo}`} alt='Logo' width={320} height={150} /></Link>
                 : storeData?.logoWhite && storeData?.logoWhite !== '' && design.header?.logo === 'Logo blanco'
-                  ? <Link href='/'><Image ref={imageRef2} className={`${imageLoaded2 ? 'opacity-1' : 'opacity-0'} transition-all duration-500 w-auto h-[60px] py-1`} src={`${storeData.logoWhite}`} alt='Logo blanco' width={320} height={150} /></Link>
+                  ? <Link href='/'><Image className={`w-auto h-[60px] py-1`} src={`${storeData.logoWhite}`} alt='Logo blanco' width={320} height={150} /></Link>
                   : <Link href='/'><div className='h-[60px] flex'><p className='m-auto text-2xl font-medium'>SITIO WEB</p></div></Link>
             }
           </div>
@@ -241,9 +149,9 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
                   <div className='flex gap-2 sm:hidden'>
                     {
                       storeData?.logo && storeData?.logo !== '' && design.header?.logo === 'Logo'
-                        ? <Link href='/'><Image ref={imageRef3} className={`${imageLoaded3 ? 'opacity-1' : 'opacity-0'} transition-all duration-500 w-auto h-[52px] py-0.5`} src={`${storeData.logo}`} alt='Logo' width={320} height={150} /></Link>
+                        ? <Link href='/'><Image className={`w-auto h-[52px] py-0.5`} src={`${storeData.logo}`} alt='Logo' width={320} height={150} /></Link>
                         : storeData?.logoWhite && storeData?.logoWhite !== '' && design.header?.logo === 'Logo blanco'
-                          ? <Link href='/'><Image ref={imageRef4} className={`${imageLoaded4 ? 'opacity-1' : 'opacity-0'} transition-all duration-500 w-auto h-[52px] py-0.5`} src={`${storeData.logoWhite}`} alt='Logo blanco' width={320} height={150} /></Link>
+                          ? <Link href='/'><Image className={`w-auto h-[52px] py-0.5`} src={`${storeData.logoWhite}`} alt='Logo blanco' width={320} height={150} /></Link>
                           : <Link href='/'><div className='h-[52px] flex'><p className='m-auto text-2xl font-medium'>SITIO WEB</p></div></Link>
                     }
                   </div>
@@ -271,7 +179,7 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
               design.pages?.filter(page => page.header).map((page, index) => {
                 if (page.button) {
                   return (
-                    <LinkButton key={page.slug} url={page.slug} config={`${index === 0 ? element1 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 1 ? element2 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 2 ? element3 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 3 ? element4 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 4 ? element5 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 5 ? element6 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 6 ? element7 ? 'opacity-1' : 'opacity-0 translate-y-4' : ''} transition-all duration-500 py-[6px] mx-auto mb-4`} style={style} click={() => {
+                    <LinkButton key={page.slug} url={page.slug} config={`${index === 0 ? element1 ? 'opacity-1' : 'opacity-0 translate-y-5' : index === 1 ? element2 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 2 ? element3 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 3 ? element4 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 4 ? element5 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 5 ? element6 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 6 ? element7 ? 'opacity-1' : 'opacity-0 translate-y-4' : ''} transition-all duration-500 py-[6px] mx-auto mb-4`} style={style} click={() => {
                       setMenu('-ml-[350px]')
                       setTimeout(() => {
                         setIndex('hidden')
@@ -290,7 +198,7 @@ export const Navbar: React.FC<PropsWithChildren<Props>> = ({ children, design, s
                     return <SubPage key={page.slug} page={page} setMenu={setMenu} setIndex={setIndex} design={design} style={style} element1={element1} element2={element2} element3={element3} element4={element4} element5={element5} element6={element6} element7={element7} index={index} />
                   } else {
                     return (
-                      <Link key={page.slug} className={`${index === 0 ? element1 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 1 ? element2 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 2 ? element3 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 3 ? element4 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 4 ? element5 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 5 ? element6 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 6 ? element7 ? 'opacity-1' : 'opacity-0 translate-y-4' : ''} transition-all duration-500 font-medium mb-4 flex pb-2 min-w-[250px] border-b`} style={{ color: design.header?.textColor, borderBottom: `1px solid ${style.borderColor}` }} onClick={() => {
+                      <Link key={page.slug} className={`${index === 0 ? element1 ? 'opacity-1' : 'opacity-0 translate-y-5' : index === 1 ? element2 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 2 ? element3 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 3 ? element4 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 4 ? element5 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 5 ? element6 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 6 ? element7 ? 'opacity-1' : 'opacity-0 translate-y-4' : ''} transition-all duration-500 font-medium mb-4 flex pb-2 min-w-[250px] border-b`} style={{ color: design.header?.textColor, borderBottom: `1px solid ${style.borderColor}` }} onClick={() => {
                         setMenu('-ml-[350px]')
                         setTimeout(() => {
                           setIndex('hidden')

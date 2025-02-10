@@ -42,7 +42,7 @@ export const SubPage: React.FC<Props> = ({ page, setMenu, setIndex, design, styl
       {
         page.subPage.length
           ? (
-            <div ref={subPageRef} className={`${index === 0 ? element1 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 1 ? element2 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 2 ? element3 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 3 ? element4 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 4 ? element5 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 5 ? element6 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 6 ? element7 ? 'opacity-1' : 'opacity-0 translate-y-4' : ''} transition-all duration-500 flex flex-col gap-2`} style={{ maxHeight: `${subPage}px`, overflow: 'hidden' }}>
+            <div ref={subPageRef} className={`${index === 0 ? element1 ? 'opacity-1' : 'opacity-0 translate-y-5' : index === 1 ? element2 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 2 ? element3 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 3 ? element4 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 4 ? element5 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 5 ? element6 ? 'opacity-1' : 'opacity-0 translate-y-4' : index === 6 ? element7 ? 'opacity-1' : 'opacity-0 translate-y-4' : ''} transition-all duration-500 flex flex-col gap-2`} style={{ maxHeight: `${subPage}px`, overflow: 'hidden' }}>
               {
                 page.subPage.map((subPage: any) => <Link key={subPage.slug} href={subPage.slug!} style={{ color: design.header.textColor }} onClick={() => {
                   setMenu('-ml-[350px]')
