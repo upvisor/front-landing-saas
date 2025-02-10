@@ -21,6 +21,7 @@ interface Props {
 
 export const Chat: React.FC<Props> = ({ style, storeData, design, viewChat }) => {
 
+  const [chatView, setChatView] = useState(false)
   const [chatOpacity, setChatOpacity] = useState('-mb-[200px]')
   const [chat, setChat] = useState<IMessage[]>([{
     response: `¡Hola! Te damos la bienvenida a ${storeData?.name}, mi nombre es ${storeData?.nameContact}, ¿En que te puedo ayudar?`,
@@ -111,7 +112,7 @@ export const Chat: React.FC<Props> = ({ style, storeData, design, viewChat }) =>
 
   return (
     <>
-        <div className={`${chatOpacity} ${chatOpacity === '-mb-[200px]' ? 'opacity-0' : 'opacity-1'} fixed bottom-24 right-4 flex z-50 h-[480px] ml-3 justify-between flex-col gap-3 transition-all duration-500 w-96 sm:h-[600px] sm:gap-4`} style={{ borderRadius: `${style.borderBlock}px`, border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '', boxShadow: style.design === 'Sobreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', backgroundColor: design.chat.bgColor }}>
+        <div className={`${chatOpacity} ${chatView ? 'flex' : 'hidden'} ${chatOpacity === '-mb-[200px]' ? 'opacity-0' : 'opacity-1'} fixed bottom-24 right-4 z-50 h-[480px] ml-3 justify-between flex-col gap-3 transition-all duration-500 w-80 sm:w-96 sm:h-[600px] sm:gap-4`} style={{ borderRadius: `${style.borderBlock}px`, border: style.design === 'Borde' ? `1px solid ${style.borderColor}` : '', boxShadow: style.design === 'Sobreado' ? `0px 3px 20px 3px ${style.borderColor}10` : '', backgroundColor: design.chat.bgColor }}>
           <div className='h-28 w-full flex p-4' style={{ backgroundColor: style.primary, borderTopLeftRadius: `${style.borderBlock}px`, borderTopRightRadius: `${style.borderBlock}px` }}>
             <span className='text-white mt-auto mb-auto text-xl'>Chat</span>
           </div>
@@ -151,11 +152,15 @@ export const Chat: React.FC<Props> = ({ style, storeData, design, viewChat }) =>
         <button onClick={async (e: any) => {
           e.preventDefault()
           if (chatOpacity === '-mb-[200px]') {
+            setChatView(true)
             setTimeout(() => {
               setChatOpacity('')
             }, 50)
           } else {
             setChatOpacity('-mb-[200px]')
+            setTimeout(() => {
+              setChatView(false)
+            }, 500);
           }
           const senderId = localStorage.getItem('chatId')
           if (senderId) {
